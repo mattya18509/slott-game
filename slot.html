@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>スロットゲーム</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial;
+        }
+
+        h1 {
+            font-size: 35px;
+        }
+
+        #slot {
+            font-size: 60px;
+            margin: 30px;
+        }
+
+        #result {
+            font-size: 25px;
+            margin: 20px;
+        }
+
+        button {
+            font-size: 25px;
+            padding: 15px 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎰 SLOT GAME 🎰</h1>
+
+    <div id="slot">
+        7　7　7
+    </div>
+
+    <div id="result">
+        ボタンを押してスタート！
+    </div>
+
+    <button onclick="stopSlot()">STOP</button>
+
+
+    <script>
+
+        let numbers = [1, 1, 1];
+
+        let stopped = [false, false, false];
+
+
+        // 数字を動かす
+        function move() {
+
+            for (let i = 0; i < 3; i++) {
+
+                if (!stopped[i]) {
+                    numbers[i] = Math.floor(Math.random() * 9) + 1;
+                }
+
+            }
+
+            document.getElementById("slot").innerHTML =
+                numbers[0] + "　" +
+                numbers[1] + "　" +
+                numbers[2];
+
+        }
+
+
+        // 0.1秒ごとに数字を動かす
+        setInterval(move, 100);
+
+
+        // STOPボタン
+        function stopSlot() {
+
+            // 左から順番に止める
+            if (!stopped[0]) {
+
+                stopped[0] = true;
+
+                document.getElementById("result").innerHTML =
+                    "2つ目を止めよう！";
+
+            }
+
+            else if (!stopped[1]) {
+
+                stopped[1] = true;
+
+                document.getElementById("result").innerHTML =
+                    "3つ目を止めよう！";
+
+            }
+
+            else if (!stopped[2]) {
+
+                stopped[2] = true;
+
+                // 777
+                if (numbers[0] == 7 &&
+                    numbers[1] == 7 &&
+                    numbers[2] == 7) {
+
+                    document.getElementById("result").innerHTML =
+                        "🎉🎉 大当たり！！ 🎉🎉";
+
+                }
+
+                // 3つ揃い
+                else if (numbers[0] == numbers[1] &&
+                         numbers[1] == numbers[2]) {
+
+                    document.getElementById("result").innerHTML =
+                        "🎊 当たり！ 🎊";
+
+                }
+
+                else {
+
+                    document.getElementById("result").innerHTML =
+                        "はずれ...";
+
+                }
+
+            }
+
+            // 3つ止まったあとに押したら再スタート
+            else {
+
+                stopped = [false, false, false];
+
+                document.getElementById("result").innerHTML =
+                    "もう一度スタート！";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
